@@ -54,6 +54,7 @@ function inViewport(elem) {
 */
 
 // build the nav
+let count = 1
 for (let section of sections) {
     let title = section.querySelector('h2').textContent;
     let navEl = document.createElement('li');
@@ -61,6 +62,9 @@ for (let section of sections) {
     navEl.classList.add('menu__link');
     navEl.style.display = 'inline-block';
     navEl.setAttribute('data-sectionId', section.id);
+    navEl.id = `nav${count}`;
+    count++;
+    section.setAttribute('data-navId',navEl.id);
     docFrag.appendChild(navEl);
 }
 
@@ -85,10 +89,14 @@ navBar.addEventListener('click', navClickHandler);
 // Set sections as active
 document.addEventListener('scroll', () => {
     for (section of sections) {
+        let navId = section.getAttribute('data-navId');
+        let navEl = document.querySelector(`#${navId}`);
         if (inViewport(section)){
             section.classList.add('your-active-class');
+            navEl.classList.add('active_nav');
         } else {
             section.classList.remove('your-active-class');
+            navEl.classList.remove('active_nav');
         }
     }
 })
